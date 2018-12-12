@@ -1,0 +1,40 @@
+#basic python libraries
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+fromaddr = "campuslakeproj"
+toaddr = "campuslakeproj@gmail.com"
+msg = MIMEMultipart()
+msg['From'] = fromaddr
+msg['To'] = toaddr
+
+#placeholder subject line and body text
+msg['Subject'] = "Temp = HERE O2 = HERE Other = HERE"
+body = "via Raspberry Pi"
+
+#'plain' refers to the subtype, eg: major type(text or image) and subtype(plain or gif)
+msg.attach(MIMEText(body, 'plain'))
+
+#defines an SMTP client session object that can be used to send mail to any Internet machine with an SMTP or ESMTP listener daemon
+import smtplib 
+
+#accessing gmail server
+server = smtplib.SMTP('smtp.gmail.com', 587)
+
+#security function, helps to keep password secure
+server.starttls()
+server.login(fromaddr, "f1825lak2")
+text = msg.as_string()
+server.sendmail(fromaddr, toaddr, text)
+server.quit()
+
+#cron function to schedule a daily scheduling of email correspondence 
+import schedule 
+import time 
+def job(): print("Oxygen levels: %d \n PH levels: %d \n Temperature: %d \n\n", oxygen, ph, temp) 
+//schedule.every(10).minutes.do(job) 
+//schedule.every().hour.do(job) 
+schedule.every(1).day.at("12:00").do(job) 
+while 1: 
+schedule.run_pending() 
+time.sleep(1)
+
